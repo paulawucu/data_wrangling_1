@@ -1,0 +1,42 @@
+---
+title: "data_import"
+author: "Paula Wu"
+date: "9/28/2021"
+output: html_document
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(readxl)
+library(haven)
+```
+
+## Import some data
+I want to import "FAS_litters.csv"
+```{r}
+litters_df = read_csv("./data/FAS_litters.csv")  # this is a relative path
+litters_df = janitor::clean_names(litters_df)
+
+pups_df = read_csv("./data/FAS_pups.csv")
+pups_df = janitor::clean_names(pups_df)
+```
+
+## Select 
+Lect's select some columns
+```{r}
+select(litters_df, group, litter_number)
+select(litters_df, group, gd0_weight, gd18_weight)
+select(litters_df, group, gd0_weight:gd_of_birth)  # keep several columns
+select(litters_df, group, starts_with("pups"))  # start_with, end_with, contains
+select(litters_df, -litter_number)  # except litter_number
+select(litters_df, GROUP = group, litter_number)  # you can still rename the attributes (just rename) 
+select(litters_df, litter_number, everything())  # relocate the litter_number first, and keep everything later
+```
+```{r}
+names(pups_df)
+select(pups_df, litter_number:pd_ears)  # or just litter_number, sex, pd_ears
+# pull(litters_df, group)
+```
+
+
+
