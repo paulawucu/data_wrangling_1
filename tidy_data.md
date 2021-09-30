@@ -61,3 +61,52 @@ pulse_tidy_df
     ##  9 10022  58.5 male  00m      14
     ## 10 10022  58.5 male  01m       3
     ## # … with 4,338 more rows
+
+# pivot wider
+
+make up a result data table
+
+``` r
+analysis_df = 
+  tibble(
+    group = c("treatment", "treatment", "control", "control"),
+    time = c("a", "b", "c", "d"),
+    group_mean = c(4, 8, 3, 6)
+  )
+analysis_df %>% 
+  pivot_wider(
+    names_from = "time",
+    values_from = "group_mean"
+  ) %>% 
+  knitr::kable()
+```
+
+| group     |   a |   b |   c |   d |
+|:----------|----:|----:|----:|----:|
+| treatment |   4 |   8 |  NA |  NA |
+| control   |  NA |  NA |   3 |   6 |
+
+# bind rows
+
+import the LotR movie words stuff
+
+``` r
+fellowship_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "B3:D6") %>% 
+  mutate(movie = "fellowship_rings")  # add an extra column "movie"
+two_towers_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "F3:H6") %>% 
+  mutate(movie = "tow_towers") 
+return_df = 
+  read_excel("./data/LotR_Words.xlsx", range = "J3:L6") %>% 
+  mutate(movie = "return_of_the_king") 
+lotr_df = 
+  bind_rows(fellowship_df, two_towers_df, return_df) %>%  #stack all on top of each other
+  janitor::clean_names() %>% 
+  pivot_longer(
+    female:male,
+    names_to = "sex",
+    values_to = "words"
+  ) %>% 
+  relocate(movie, .after = race) # just relocate movie after race column
+```
