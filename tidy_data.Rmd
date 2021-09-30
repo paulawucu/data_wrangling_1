@@ -1,0 +1,13 @@
+---
+title: "tidy_data"
+author: "Paula Wu"
+date: "9/28/2021"
+output: github_document
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(tidyverse)
+library(readxl)
+library(haven)
+```
+
